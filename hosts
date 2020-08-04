@@ -26,8 +26,9 @@ master ansible_connection=ssh ansible_user=vagrant
 #[all:vars]
 #all_file=/home/vagrant/all_file
 
-#[web:vars]
+[web:vars]
 #web_file=/home/vagrant/index.html
+ansible_python_interpreter: "/usr/lib/python3.6"
 
 #[ha:vars]
 #ha_config=/home/vagrant/haproxy.cfg
