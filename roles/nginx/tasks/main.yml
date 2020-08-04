@@ -5,6 +5,9 @@
     state: latest
     update_cache: yes
   become: yes
+  become_user: vagrant
+  become_method: sudo
+  remote_user: vagrant
 
 - name: start nginx
   service:
