@@ -2,9 +2,8 @@
   yum: 
     name:
       - nginx
-    state: present
+    state: latest
     update_cache: yes
-    cache_valid_time: 3600
   become: yes
 
 - name: start nginx
