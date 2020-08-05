@@ -1,9 +1,9 @@
-
+---
 - name: install nginx
   hosts: web
-  remote_user: vagrant
+  remote_user: codellya
   become: yes
-  become_user: vagrant
+  become_user: codellya
   become_method: sudo
   roles:
     - nginx
