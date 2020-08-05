@@ -8,13 +8,6 @@
   become_user: vagrant
   become_method: sudo
 
-
-- name: start nginx
-  service:
-    name: nginx
-    state: started
-  become: yes
-
 - name: index
   template:
     src: index.html.j2
