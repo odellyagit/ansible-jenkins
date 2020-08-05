@@ -3,6 +3,7 @@
   hosts: web
   remote_user: vagrant
   become: yes
+  become_user: vagrant
   roles:
     - nginx
 
