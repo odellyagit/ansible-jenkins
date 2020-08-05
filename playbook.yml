@@ -4,6 +4,7 @@
   remote_user: vagrant
   become: yes
   become_user: vagrant
+  become_method: sudo
   roles:
     - nginx
 
