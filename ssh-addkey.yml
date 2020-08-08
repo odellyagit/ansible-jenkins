@@ -1,0 +1,14 @@
+---
+- name: installation de nginx
+  hosts: all
+  become: yes
+  remote_user: codellya
+  become_method: "sudo"
+  gather_facts: no
+  tasks:  
+  - name: copiez la key publique sur les machines distantes
+    authorized_key:
+      user: codellya
+      state: present
+      key: "{{ lookup('file', '/home/codellya/.ssh/id_rsa.pub') }}"
+

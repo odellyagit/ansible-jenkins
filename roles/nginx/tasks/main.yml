@@ -1,12 +1,18 @@
 - name: install nginx
-  yum: 
+  yum:
     name:
       - nginx
-    state: latest
-    update_cache: yes
-    
+      - postgresql
+      - postgresql-server
+    state: present
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+  become: yes
+
 - name: index
   template:
     src: index.html.j2
-    dest: /var/www/html/index.html
-
+    dest: /usr/share/nginx/html/index.html

@@ -1,11 +1,10 @@
 ---
-- name: install nginx
+- name: installation de nginx
   hosts: web
-  remote_user: codellya
   become: yes
-  become_user: codellya
+  remote_user: codellya
   become_method: sudo
+  gather_facts: yes
   roles:
-    - nginx
-
-
+    - role: nginx
+      
