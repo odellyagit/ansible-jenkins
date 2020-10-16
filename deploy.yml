@@ -1,0 +1,51 @@
+---
+- name: "Installation Using Docker"
+  hosts: prod
+  become: yes
+  remote_user: codellya
+  become_method: sudo
+  gather_facts: yes
+  pre_tasks:
+    - name: Installation de python-pip
+      yum:
+        name: python3-pip
+        state: present
+        update_cache: yes
+    - name: "Install docker python"
+      pip:
+        name: docker-py
+  tasks:
+    - name: Pull a Docker Image
+      docker_image:
+        name: httpd
+        tag: latest
+        source: pull
+      register: z
+    - name: Checking Pull Status
+      debug:
+        var: z
+    - name: Creating a Persistent Volume
+      file:
+        path: "/root/httpdvolume"
+        state: directory
+        mode: '0755'
+        owner: codellya
+        group: codellya
+    - name: Copying the HTML code in the Directory
+      copy:
+        src: "index.html"
+        dest: "/root/httpdvolume"
+        mode: '0755'
+        owner: codellya
+        group: codellya
+    - name: Create Apache conteneur
+      docker_container:
+        name: webapp
+        image: httpd
+        state: started
+        detach: true
+        interactive: true
+        ports:
+          - "8181:81"
+        volumes:
+          - /root/httpdvolume:/usr/local/apache2/htdocs

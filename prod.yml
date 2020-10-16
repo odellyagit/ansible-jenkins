@@ -1,0 +1,10 @@
+---
+- name: "Installation Using Docker"
+  hosts: web
+  become: yes
+  remote_user: codellya
+  become_method: sudo
+  gather_facts: yes
+  roles:
+    - role: nginx
+      
