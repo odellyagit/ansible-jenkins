@@ -5,7 +5,17 @@
   remote_user: codellya
   become_method: sudo
   gather_facts: yes
+  vars:
+    ansible_user: codellya
   pre_tasks:
+    - name: Installation de quelques packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - epel-release
+        - wget
+        - git
     - name: Installation de python-pip
       yum:
         name: python3-pip
@@ -15,6 +25,13 @@
       pip:
         name: docker-py
   tasks:
+    - name: Copy website file template
+      template:
+        src: index.html.j2
+        dest: /root/httpdvolume/index.html
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0644
     - name: Pull a Docker Image
       docker_image:
         name: httpd
@@ -29,15 +46,8 @@
         path: "/root/httpdvolume"
         state: directory
         mode: '0755'
-        owner: codellya
-        group: codellya
-    - name: Copying the HTML code in the Directory
-      copy:
-        src: "index.html"
-        dest: "/root/httpdvolume"
-        mode: '0755'
-        owner: codellya
-        group: codellya
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
     - name: Create Apache conteneur
       docker_container:
         name: webapp
@@ -46,6 +56,6 @@
         detach: true
         interactive: true
         ports:
-          - "8181:81"
+          - "8181:80"
         volumes:
-          - /root/httpdvolume:/usr/local/apache2/htdocs
+          - /root/httpdvolume/index.html:/usr/local/apache2/htdocs/index.html
