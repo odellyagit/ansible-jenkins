@@ -1,6 +1,6 @@
 ---
 - name: "Installation Using Docker"
-  hosts: web
+  hosts: prod
   become: yes
   remote_user: codellya
   become_method: sudo
